@@ -55,4 +55,6 @@ services:
 
 networks:
   todo-frontend:
+    driver: bridge
   todo-backend:
+    driver: bridge
