@@ -55,8 +55,11 @@ services:
 
 networks:
   todo-frontend:
+    name: todo-frontend
     driver: bridge
   todo-backend:
+    name: todo-backend
     driver: bridge
   monitoring:
+    name: monitoring
     driver: bridge
