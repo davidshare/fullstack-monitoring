@@ -37,7 +37,7 @@ services:
       - traefik.http.routers.grafana-http.rule=((Host(`cv01.davidessien.com`)  || Host(`www.cv01.davidessien.com`)) && PathPrefix(`/grafana`))
       - traefik.http.routers.grafana-http.entrypoints=web
       - traefik.http.services.grafana-http.loadbalancer.server.port=3000
-      - traefik.http.routers.grafana-https.middlewares=www-to-non-www
+      - traefik.http.routers.grafana-https.middlewares=redirect-to-non-www
       - traefik.http.routers.grafana-https.rule=((Host(`cv01.davidessien.com`)  || Host(`www.cv01.davidessien.com`)) && PathPrefix(`/grafana`))
       - traefik.http.routers.grafana-https.entrypoints=websecure
       - traefik.http.routers.grafana-https.tls.certresolver=staging
@@ -65,7 +65,7 @@ services:
       - traefik.http.routers.prometheus-http.rule=((Host(`cv01.davidessien.com`)  || Host(`www.cv01.davidessien.com`)) && PathPrefix(`/prometheus`))
       - traefik.http.routers.prometheus-http.entrypoints=web
       - traefik.http.services.prometheus-http.loadbalancer.server.port=9090
-      - traefik.http.routers.prometheus-https.middlewares=www-to-non-www
+      - traefik.http.routers.prometheus-https.middlewares=redirect-to-non-www
       - traefik.http.routers.prometheus-https.rule=((Host(`cv01.davidessien.com`)  || Host(`www.cv01.davidessien.com`)) && PathPrefix(`/prometheus`))
       - traefik.http.routers.prometheus-https.entrypoints=websecure
       - traefik.http.routers.prometheus-https.tls.certresolver=letsencryptresolver

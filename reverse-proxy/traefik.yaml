@@ -18,10 +18,16 @@ entryPoints:
       tls:
         certResolver: staging
 
+middlewares:
+  redirect-to-non-www:
+    redirectRegex:
+      regex: "^https?://www\\.(.+)"
+      replacement: "https://$1"
+      permanent: true
+
 providers:
   docker:
     exposedByDefault: false # Ensure only explicitly labeled containers are exposed
-    network: todo-frontend # Replace with the appropriate Docker network
 
 certificatesResolvers:
   staging:

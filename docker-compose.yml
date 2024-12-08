@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.api-http.entrypoint=web"
       - "traefik.http.services.api-http.loadbalancer.server.port=8000"
       - "traefik.http.routers.api-https.rule=(Host(`cv01.davidessien.com`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`)))"
-      - "traefik.http.routers.api-https.middlewares=www-to-non-www"
+      - "traefik.http.routers.api-https.middlewares=redirect-to-non-www"
       - "traefik.http.routers.api-https.entrypoints=websecure"
       - "traefik.http.routers.api-https.tls.certresolver=staging"
     env_file:
@@ -56,7 +56,7 @@ services:
       - "traefik.http.routers.frontend-http.rule=(Host(`cv01.davidessien.com`) || Host(`www.cv01.davidessien.com`))"
       - "traefik.http.routers.frontend-http.entrypoints=web"
       - "traefik.http.services.frontend-http.loadbalancer.server.port=3000"
-      - "traefik.http.routers.frontend-https.middlewares=www-to-non-www"
+      - "traefik.http.routers.frontend-https.middlewares=redirect-to-non-www"
       - "traefik.http.routers.frontend-https.rule=(Host(`cv01.davidessien.com`) || Host(`www.cv01.davidessien.com`))"
       - "traefik.http.routers.frontend-https.entrypoints=websecure"
       - "traefik.http.routers.frontend-https.tls.certresolver=staging"

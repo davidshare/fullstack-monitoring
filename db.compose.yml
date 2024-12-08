@@ -42,7 +42,7 @@ services:
       - traefik.http.routers.adminer-http.rule=Host(`db.cv01.davidessien.com`) || Host(`www.db.cv01.davidessien.com`)
       - traefik.http.routers.adminer-http.entrypoints=web
       - traefik.http.services.adminer-http.loadbalancer.server.port=8080
-      - traefik.http.routers.adminer-https.middlewares=www-to-non-www
+      - traefik.http.routers.adminer-https.middlewares=redirect-to-non-www
       - traefik.http.routers.adminer-https.rule=Host(`db.cv01.davidessien.com`) || Host(`www.db.cv01.davidessien.com`)
       - traefik.http.routers.adminer-https.entrypoints=websecure
       - traefik.http.routers.adminer-https.tls.certresolver=staging
