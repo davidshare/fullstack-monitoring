@@ -1,7 +1,7 @@
 include:
-  - ./db.compose.yaml
-  - ./monitoring.compose.yaml
-  - ./traefik.compose.yaml
+  - ./db.compose.yml
+  - ./monitoring.compose.yml
+  - ./traefik.compose.yml
 
 services:
   todo-api:
