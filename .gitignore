@@ -54,3 +54,5 @@ Thumbs.db
 # JetBrains IDE project files (for PyCharm, WebStorm, etc.)
 *.iml
 letsencrypt
+
+!next-env.d.ts
