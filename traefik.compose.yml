@@ -4,7 +4,7 @@ services:
     container_name: traefik
     ports:
       - "80:80" # HTTP
-      # - "443:443" # HTTPS
+      - "443:443" # HTTPS
     volumes:
       - ./reverse-proxy/traefik.yaml:/etc/traefik/traefik.yml:ro # Traefik's main configuration file
       - /var/run/docker.sock:/var/run/docker.sock:ro # Access Docker socket
