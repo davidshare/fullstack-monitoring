@@ -59,7 +59,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.prometheus.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/prometheus`)
       - traefik.http.routers.prometheus.entrypoints=websecure
-      - traefik.http.services.prometheus.loadbalancer.server.port=
+      - traefik.http.services.prometheus.loadbalancer.server.port=9090
       - traefik.http.routers.prometheus.priority=900
     depends_on:
       - cadvisor
