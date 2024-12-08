@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -35,6 +36,14 @@ Base.metadata.create_all(bind=engine)
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the FastAPI application!"}
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "ok",
+        "timestamp": datetime.utcnow().isoformat()
+    }
 
 
 # Include API router
