@@ -1,5 +1,6 @@
 module "ec2_instance" {
-  source                      = "/media/davidshare/Tersu/TersuCorp/tersu tech/learning DevOps/terraform-aws-modules/ec2"
+  source                      = "github.com/davidshare/terraform-aws-modules//ec2?ref=ec2-v1.0.0"
+
   ami                         = "ami-0453ec754f44f9a4a"
   instance_type               = "t2.micro"
   key_name                    = "monitoring"
