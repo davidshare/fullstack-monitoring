@@ -33,6 +33,7 @@ services:
 
     labels:
       - traefik.enable=true
+      - traefik.http.routers.grafana.tls=true
       - traefik.http.routers.grafana.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/grafana`)
       - traefik.http.routers.grafana.entrypoints=websecure
       - traefik.http.services.grafana.loadbalancer.server.port=3000
@@ -57,10 +58,12 @@ services:
       - prometheus_data:/prometheus
     labels:
       - traefik.enable=true
+      - traefik.http.routers.prometheus.tls=true
       - traefik.http.routers.prometheus.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/prometheus`)
       - traefik.http.routers.prometheus.entrypoints=websecure
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
       - traefik.http.routers.prometheus.priority=900
+
     depends_on:
       - cadvisor
     networks:
