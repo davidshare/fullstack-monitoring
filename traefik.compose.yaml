@@ -1,0 +1,24 @@
+services:
+  reverse-proxy:
+    image: traefik:v3.2.1
+    container_name: traefik
+    command:
+      - "--api.dashboard=true" # Enables the secure dashboard
+      - "--providers.docker=true" # Enables Docker provider
+      - "--providers.docker.exposedByDefault=false" # Only expose explicitly labeled containers
+      - "--entrypoints.web.address=:80" # HTTP entry point
+      - "--entrypoints.websecure.address=:443" # HTTPS entry point
+      - "--certificatesResolvers.myresolver.acme.httpChallenge.entryPoint=web"
+      - "--certificatesResolvers.myresolver.acme.email=your-email@example.com" # Replace with your email
+      - "--certificatesResolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "8083:80" # HTTP
+      - "443:4443" # HTTPS
+    volumes:
+      - ./traefik/config.yaml:/etc/traefik/traefik.yml:ro # Traefik's main configuration file
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Access Docker socket
+      - ./letsencrypt:/letsencrypt # Persistent certificate storage
+    networks:
+      - todo-frontend
+      - todo-backend
+      - monitoring

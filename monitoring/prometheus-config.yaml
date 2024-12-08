@@ -1,0 +1,20 @@
+global:
+  scrape_interval: 15s # Scrape metrics every 15 seconds
+  scrape_timeout: 10s # Timeout for scraping metrics
+
+scrape_configs:
+  # Scrape Prometheus server itself for monitoring its own health and performance
+  - job_name: "prometheus"
+    scrape_interval: 1m # Scrape Prometheus every minute (to avoid overloading it)
+    static_configs:
+      - targets: ["prometheus:9090"] # Scrape Prometheus server itself (if monitoring Prometheus)
+
+  # Scrape Node Exporter for system-level metrics (CPU, memory, disk, etc.)
+  - job_name: "node"
+    static_configs:
+      - targets: ["node-exporter:9100"] # Scrape node-exporter for host-level metrics
+
+  # Scrape cAdvisor for Docker container metrics (CPU, memory, network, etc.)
+  - job_name: "cadvisor"
+    static_configs:
+      - targets: ["cadvisor:8080"] # Scrape cAdvisor for container metrics

@@ -1,0 +1,30 @@
+server:
+  http_listen_port: 9080 # Promtail's web UI port
+  grpc_listen_port: 0 # Disabling gRPC
+
+positions:
+  filename: /tmp/positions.yaml # File to store the last read position of logs
+
+clients:
+  - url: "http://loki:3100/loki/api/v1/push" # URL to Loki's push API
+
+scrape_configs:
+  - job_name: "system"
+    static_configs:
+      - targets:
+          - "localhost"
+        labels:
+          job: varlogs # Label for system logs
+          __path__: /var/log/*log # Path to system log files
+
+  - job_name: "docker_logs"
+    docker_sd_configs:
+      - host: "unix:///var/run/docker.sock" # Docker socket for container discovery
+        refresh_interval: 10s
+    relabel_configs:
+      - source_labels: [__meta_docker_container_name]
+        target_label: job
+        replacement: "docker_logs" # Label for Docker container logs
+      - source_labels: [__meta_docker_container_name]
+        target_label: __path__
+        replacement: "/var/lib/docker/containers/${1}/${1}-json.log" # Path to container logs in Docker

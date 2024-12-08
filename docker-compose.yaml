@@ -1,0 +1,58 @@
+include:
+  - ./db.compose.yaml
+  - ./monitoring.compose.yaml
+  - ./traefik.compose.yaml
+
+services:
+  todo-api:
+    build:
+      context: ./todo-api
+      dockerfile: Dockerfile
+    container_name: todo-api
+    ports:
+      - "8000:8000"
+    networks:
+      - todo-backend
+    labels:
+      - "traefik.http.routers.api.rule=Host(`your-app.domain.com`) && PathPrefix(`/api`)"
+      - "traefik.http.services.api.loadbalancer.server.port=8000"
+      - "traefik.http.routers.docs.rule=Host(`your-app.domain.com`) && PathPrefix(`/docs`)"
+      - "traefik.http.services.docs.loadbalancer.server.port=8000"
+    env_file:
+      - ./todo-api/.env
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--spider",
+          "http://localhost:8000/health || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      db:
+        condition: service_healthy
+
+  todo-frontend:
+    build:
+      context: ./todo-frontend
+      dockerfile: Dockerfile
+    container_name: todo-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - todo-frontend
+    labels:
+      - "traefik.http.routers.frontend.rule=Host(`your-app.domain.com`)"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+    restart: unless-stopped
+
+networks:
+  todo-frontend:
+    driver: bridge
+  todo-backend:
+    driver: bridge
