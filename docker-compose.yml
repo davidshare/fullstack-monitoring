@@ -55,6 +55,4 @@ services:
 
 networks:
   todo-frontend:
-    external: true
   todo-backend:
-    external: true
