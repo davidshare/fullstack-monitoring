@@ -42,6 +42,10 @@ else
   fi
 fi
 
+mkdir -p "{$CLONE_DIR}/letsencrypt"
+touch "{$CLONE_DIR}/letsencrypt/acme.json"
+chmod 600 "{$CLONE_DIR}/letsencrypt/acme.json"  # Set proper permissions
+
 # Verify installations
 echo "Verifying installations..."
 docker version
