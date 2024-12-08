@@ -34,12 +34,16 @@ services:
       - traefik.enable=true
       - traefik.http.routers.grafana.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/grafana`)
       - traefik.http.routers.grafana.entrypoints=web
-      - traefik.http.services.grafana.loadbalancer.server.port=9090
+      - traefik.http.services.grafana.loadbalancer.server.port=3000
+      - traefik.http.routers.grafana.priority=10
+
     depends_on:
       - loki
       - prometheus
     networks:
       - monitoring
+      - todo-frontend
+      - todo-backend
 
   prometheus:
     image: prom/prometheus:latest
@@ -59,6 +63,8 @@ services:
       - cadvisor
     networks:
       - monitoring
+      - todo-frontend
+      - todo-backend
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor
@@ -80,3 +86,7 @@ volumes:
 networks:
   monitoring:
     driver: bridge
+  todo-frontend:
+    external: true
+  todo-backend:
+    external: true

@@ -14,7 +14,7 @@ services:
     networks:
       - todo-backend
     labels:
-      - traefik.enabled=true
+      - traefik.enable=true
       - traefik.http.routers.api.rule=(Host(`cv01.davidessien.com`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`)))
       - traefik.http.routers.api.entrypoint=web
       - traefik.http.services.api.loadbalancer.server.port=8000
@@ -47,8 +47,8 @@ services:
     networks:
       - todo-frontend
     labels:
-      - traefik.enabled=true
-      - traefik.http.routers.frontend.rule=Host(`cv01.davidessien.com`) || (`www.cv01.davidessien.com`) && PathPrefix(`/`)
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=(Host(`cv01.davidessien.com`) || Host(`www.cv01.davidessien.com`)) && PathPrefix(`/`)
       - traefik.http.routers.frontend.entrypoints=web
       - "traefik.http.services.frontend.loadbalancer.server.port=3000"
     restart: unless-stopped
