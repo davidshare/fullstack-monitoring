@@ -29,7 +29,8 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     environment:
-      - GF_SERVER_ROOT_URL=http://davidessien.com/grafana
+      - GF_SERVER_ROOT_URL=https://cv01.davidessien.com/grafana
+
     labels:
       - traefik.enable=true
       - traefik.http.routers.grafana.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/grafana`)
