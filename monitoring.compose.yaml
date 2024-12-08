@@ -31,7 +31,10 @@ services:
     environment:
       - GF_SERVER_ROOT_URL=http://davidessien.com/grafana
     labels:
-      - "traefik.http.routers.grafana.rule=Host(`davidessien.com`) && PathPrefix(`/grafana`)"
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/grafana`)
+      - traefik.http.routers.grafana.entrypoints=web
+      - traefik.http.services.grafana.loadbalancer.server.port=9090
     depends_on:
       - loki
       - prometheus
@@ -48,7 +51,10 @@ services:
       - ./monitoring/prometheus-config.yaml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
     labels:
-      - "traefik.http.routers.prometheus.rule=Host(`davidessien.com`) && PathPrefix(`/prometheus`)"
+      - traefik.enable=true
+      - traefik.http.routers.prometheus.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/prometheus`)
+      - traefik.http.routers.prometheus.entrypoints=web
+      - traefik.http.services.prometheus.loadbalancer.server.port=9090
     depends_on:
       - cadvisor
     networks:
@@ -66,8 +72,6 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     networks:
       - monitoring
-    labels:
-      - "traefik.http.routers.cadvisor.rule=Host(`davidessien.com`) && PathPrefix(`/cadvisor`)"
 
 volumes:
   grafana_data:
