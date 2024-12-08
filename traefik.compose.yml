@@ -9,7 +9,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik-http.entrypoints=web
-      - traefik.http.services.traefik-http.loadbalancer.server.port=80
+      - traefik.http.services.traefik-http.loadbalancer.server.port=8080
       - traefik.http.routers.traefik-http.rule=Host(`traefik.cv01.davidessien.com`) || Host(`www.traefik.cv01.davidessien.com`)
       - traefik.http.routers.traefik-https.middlewares=redirect-to-non-www
       - traefik.http.routers.traefik-https.rule=Host(`traefik.cv01.davidessien.com`) || Host(`www.traefik.cv01.davidessien.com`)
