@@ -56,3 +56,6 @@ Thumbs.db
 letsencrypt
 
 !next-env.d.ts
+
+.terraform*
+*.tfstate*
