@@ -29,9 +29,9 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     environment:
-      - GF_SERVER_ROOT_URL=http://your-app.domain.com/grafana
+      - GF_SERVER_ROOT_URL=http://tersucorp.com/grafana
     labels:
-      - "traefik.http.routers.grafana.rule=Host(`your-app.domain.com`) && PathPrefix(`/grafana`)"
+      - "traefik.http.routers.grafana.rule=Host(`tersucorp.com`) && PathPrefix(`/grafana`)"
     depends_on:
       - loki
       - prometheus
@@ -48,7 +48,7 @@ services:
       - ./monitoring/prometheus-config.yaml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
     labels:
-      - "traefik.http.routers.prometheus.rule=Host(`your-app.domain.com`) && PathPrefix(`/prometheus`)"
+      - "traefik.http.routers.prometheus.rule=Host(`tersucorp.com`) && PathPrefix(`/prometheus`)"
     depends_on:
       - cadvisor
     networks:
@@ -67,7 +67,7 @@ services:
     networks:
       - monitoring
     labels:
-      - "traefik.http.routers.cadvisor.rule=Host(`your-app.domain.com`) && PathPrefix(`/cadvisor`)"
+      - "traefik.http.routers.cadvisor.rule=Host(`tersucorp.com`) && PathPrefix(`/cadvisor`)"
 
 volumes:
   grafana_data:

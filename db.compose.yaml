@@ -39,7 +39,7 @@ services:
     networks:
       - todo-backend
     labels:
-      - "traefik.http.routers.adminer.rule=Host(`db.your-app.domain.com`)"
+      - "traefik.http.routers.adminer.rule=Host(`db.tersucorp.com`)"
     depends_on:
       db:
         condition: service_healthy
