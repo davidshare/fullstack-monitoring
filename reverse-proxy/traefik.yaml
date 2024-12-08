@@ -16,7 +16,7 @@ entryPoints:
     address: ":443"
     http:
       tls:
-        certResolver: myresolver
+        certResolver: staging
 
 providers:
   docker:
@@ -24,10 +24,18 @@ providers:
     network: todo-frontend # Replace with the appropriate Docker network
 
 certificatesResolvers:
-  myresolver:
+  staging:
     acme:
-      email: davidessienshare@gmail.com # Replace with your email for certificate registration
+      email: davidessienshare@gmail.com
       storage: /letsencrypt/acme.json
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      httpChallenge:
+        entryPoint: web
+  production:
+    acme:
+      email: davidessienshare@gmail.com
+      storage: /letsencrypt/acme.json
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
 
