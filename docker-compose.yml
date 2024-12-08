@@ -49,7 +49,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.frontend.rule=(Host(`cv01.davidessien.com`) || Host(`www.cv01.davidessien.com`)) && PathPrefix(`/`)
-      - traefik.http.routers.frontend.entrypoints=web
+      - traefik.http.routers.frontend.entrypoints=websecure
       - "traefik.http.services.frontend.loadbalancer.server.port=3000"
     restart: unless-stopped
 
