@@ -34,17 +34,18 @@ services:
   adminer:
     image: adminer
     container_name: todo-adminer
-    ports:
-      - "8080:8080"
     networks:
       - todo-backend
       - todo-frontend
     labels:
       - traefik.enable=true
-      - traefik.http.routers.adminer.tls=true
-      - traefik.http.routers.adminer.rule=Host(`db.cv01.davidessien.com`) || Host(`www.db.cv01.davidessien.com`)
-      - traefik.http.routers.adminer.entrypoints=websecure
-      - traefik.http.services.adminer.loadbalancer.server.port=8080
+      - traefik.http.routers.adminer-http.rule=Host(`db.cv01.davidessien.com`) || Host(`www.db.cv01.davidessien.com`)
+      - traefik.http.routers.adminer-http.entrypoints=web
+      - traefik.http.services.adminer-http.loadbalancer.server.port=8080
+      - traefik.http.routers.adminer-https.middlewares=www-to-non-www
+      - traefik.http.routers.adminer-https.rule=Host(`db.cv01.davidessien.com`) || Host(`www.db.cv01.davidessien.com`)
+      - traefik.http.routers.adminer-https.entrypoints=websecure
+      - traefik.http.routers.adminer-https.tls.certresolver=staging
     depends_on:
       db:
         condition: service_healthy
