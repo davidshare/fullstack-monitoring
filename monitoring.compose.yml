@@ -103,3 +103,4 @@ services:
 volumes:
   grafana_data:
   prometheus_data:
+  loki_data:
