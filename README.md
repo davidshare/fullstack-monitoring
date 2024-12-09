@@ -163,7 +163,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Traefik](https://traefik.io/) for reverse proxy management
 - [FastAPI](https://fastapi.tiangolo.com/) for the backend API
 - [Terraform](https://www.terraform.io/) for infrastructure provisioning
-
----
-
-This `README.md` provides clear instructions and structure for anyone new to the project. Make sure to update specific details such as configuration options, environment variable values, or any other service-related instructions based on your actual project setup.
