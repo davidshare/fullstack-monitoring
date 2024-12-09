@@ -43,7 +43,6 @@ services:
       # HTTP Rule
       - "traefik.http.routers.adminer-http.rule=Host(`db.cv01.davidessien.com`)"
       - "traefik.http.routers.adminer-http.entrypoints=web"
-      - "traefik.http.routers.adminer-http.middlewares=redirect-to-https"
 
       # HTTPS Rule
       - "traefik.http.routers.adminer-https.rule=Host(`db.cv01.davidessien.com`)"

@@ -21,7 +21,6 @@ services:
       # HTTP Router - Redirect all HTTP traffic to HTTPS
       - "traefik.http.routers.backend-http.rule=Host(`cv01.davidessien.com`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`))"
       - "traefik.http.routers.backend-http.entrypoints=web"
-      - "traefik.http.routers.backend-http.middlewares=redirect-to-https"
 
       # HTTPS Router
       - "traefik.http.routers.backend-https.rule=Host(`cv01.davidessien.com`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`))"
@@ -64,7 +63,6 @@ services:
       # HTTP Router - Redirect HTTP to HTTPS
       - "traefik.http.routers.frontend-http.rule=Host(`cv01.davidessien.com`)"
       - "traefik.http.routers.frontend-http.entrypoints=web"
-      - "traefik.http.routers.frontend-http.middlewares=redirect-to-https"
 
       # HTTPS Router
       - "traefik.http.routers.frontend-https.rule=Host(`cv01.davidessien.com`)"

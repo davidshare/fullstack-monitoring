@@ -38,7 +38,6 @@ services:
       # HTTP Rule
       - traefik.http.routers.grafana-http.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/grafana`)
       - traefik.http.routers.grafana-http.entrypoints=web
-      - traefik.http.routers.grafana-http.middlewares=redirect-to-https
 
       # HTTPS Rule
       - traefik.http.routers.grafana-https.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/grafana`)
@@ -71,7 +70,6 @@ services:
       # HTTP Rule
       - traefik.http.routers.prometheus-http.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/prometheus`)
       - traefik.http.routers.prometheus-http.entrypoints=web
-      - traefik.http.routers.prometheus-http.middlewares=redirect-to-https
 
       # HTTPS Rule
       - traefik.http.routers.prometheus-https.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/prometheus`)
