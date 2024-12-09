@@ -38,7 +38,7 @@ def read_root():
     return {"message": "Welcome to the FastAPI application!"}
 
 
-@app.get("/api")
+@app.get("/api", status_code=200)
 def api():
     return {
         "status": "ok",
@@ -47,7 +47,7 @@ def api():
     }
 
 
-@app.get("/health")
+@app.get("/health", status_code=200)
 def health():
     return {
         "status": "ok",
