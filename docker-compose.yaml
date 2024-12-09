@@ -17,17 +17,17 @@ services:
       - "traefik.enable=true"
 
       # HTTP Router - Redirect all HTTP traffic to HTTPS
-      - "traefik.http.routers.api-http.rule=Host(`cv01.davidessien.com`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`))"
-      - "traefik.http.routers.api-http.entrypoints=web"
-      - "traefik.http.routers.api-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.backend-http.rule=Host(`cv01.davidessien.com`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`))"
+      - "traefik.http.routers.backend-http.entrypoints=web"
+      - "traefik.http.routers.backend-http.middlewares=redirect-to-https"
 
       # HTTPS Router
-      - "traefik.http.routers.api-https.rule=Host(`cv01.davidessien.com`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`))"
-      - "traefik.http.routers.api-https.entrypoints=websecure"
-      - "traefik.http.routers.api-https.tls.certresolver=staging"
+      - "traefik.http.routers.backend-https.rule=Host(`cv01.davidessien.com`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`))"
+      - "traefik.http.routers.backend-https.entrypoints=websecure"
+      - "traefik.http.routers.backend-https.tls.certresolver=staging"
 
       # Service
-      - "traefik.http.services.api.loadbalancer.server.port=8000"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
     env_file:
       - ./todo-api/.env
     restart: unless-stopped
