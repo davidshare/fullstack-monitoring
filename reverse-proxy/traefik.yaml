@@ -56,7 +56,7 @@ certificatesResolvers:
         entryPoint: web
 
 log:
-  level: INFO # Log level (DEBUG, INFO, WARN, ERROR)
+  level: DEBUG # Log level (DEBUG, INFO, WARN, ERROR)
 
 accessLog: # Enables access logging
   filePath: /var/log/traefik/access.log
