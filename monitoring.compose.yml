@@ -8,6 +8,7 @@ services:
       - monitoring
     volumes:
       - ./monitoring/loki-config.yaml:/etc/loki/loki-config.yaml
+      - loki_data:/loki
 
   promtail:
     image: grafana/promtail:latest
@@ -29,19 +30,23 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     environment:
-      - GF_SERVER_ROOT_URL=http://localhost:3000/grafana
+      - GF_SERVER_ROOT_URL=https://cv01.davidessien.com/grafana
 
     labels:
       - traefik.enable=true
-      - traefik.http.routers.grafana.tls=true
-      - traefik.http.routers.grafana-http.rule=((Host(`cv01.davidessien.com`)  || Host(`www.cv01.davidessien.com`)) && PathPrefix(`/grafana`))
+
+      # HTTP Rule
+      - traefik.http.routers.grafana-http.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/grafana`)
       - traefik.http.routers.grafana-http.entrypoints=web
-      - traefik.http.services.grafana-http.loadbalancer.server.port=3000
-      - traefik.http.routers.grafana-https.middlewares=redirect-to-non-www
-      - traefik.http.routers.grafana-https.rule=((Host(`cv01.davidessien.com`)  || Host(`www.cv01.davidessien.com`)) && PathPrefix(`/grafana`))
+      - traefik.http.routers.grafana-http.middlewares=redirect-to-https
+
+      # HTTPS Rule
+      - traefik.http.routers.grafana-https.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/grafana`)
       - traefik.http.routers.grafana-https.entrypoints=websecure
       - traefik.http.routers.grafana-https.tls.certresolver=staging
-      - traefik.http.routers.grafana.priority=1000
+
+      # Service Port
+      - traefik.http.services.grafana.loadbalancer.server.port=3000
 
     depends_on:
       - loki
@@ -62,15 +67,19 @@ services:
       - prometheus_data:/prometheus
     labels:
       - traefik.enable=true
-      - traefik.http.routers.prometheus-http.rule=((Host(`cv01.davidessien.com`)  || Host(`www.cv01.davidessien.com`)) && PathPrefix(`/prometheus`))
-      - traefik.http.routers.prometheus-http.entrypoints=web
-      - traefik.http.services.prometheus-http.loadbalancer.server.port=9090
-      - traefik.http.routers.prometheus-https.middlewares=redirect-to-non-www
-      - traefik.http.routers.prometheus-https.rule=((Host(`cv01.davidessien.com`)  || Host(`www.cv01.davidessien.com`)) && PathPrefix(`/prometheus`))
-      - traefik.http.routers.prometheus-https.entrypoints=websecure
-      - traefik.http.routers.prometheus-https.tls.certresolver=letsencryptresolver
-      - traefik.http.routers.prometheus.priority=900
 
+      # HTTP Rule
+      - traefik.http.routers.prometheus-http.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/prometheus`)
+      - traefik.http.routers.prometheus-http.entrypoints=web
+      - traefik.http.routers.prometheus-http.middlewares=redirect-to-https
+
+      # HTTPS Rule
+      - traefik.http.routers.prometheus-https.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/prometheus`)
+      - traefik.http.routers.prometheus-https.entrypoints=websecure
+      - traefik.http.routers.prometheus-https.tls.certresolver=staging
+
+      # Server Port
+      - traefik.http.services.prometheus-http.loadbalancer.server.port=9090
     depends_on:
       - cadvisor
     networks:

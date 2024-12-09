@@ -18,3 +18,7 @@ scrape_configs:
   - job_name: "cadvisor"
     static_configs:
       - targets: ["cadvisor:8080"] # Scrape cAdvisor for container metrics
+
+  - job_name: "traefik"
+    static_configs:
+      - targets: ["traefik:8082"]

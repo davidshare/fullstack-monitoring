@@ -8,14 +8,19 @@ services:
       - 8080:8080
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik-http.entrypoints=web
+
+      # HTTP Rule
+      - traefik.http.routers.dashboard-http.rule=Host(`traefik.cv01.davidessien.com`)
+      - traefik.http.routers.dashboard-http.entrypoints=web
+
+      # HTTPS Rule
+      - traefik.http.routers.dashboard-https.rule=Host(`traefik.cv01.davidessien.com`)
+      - traefik.http.routers.dashboard-https.entrypoints=websecure
+      - traefik.http.routers.dashboard-https.service=api@internal
+      - traefik.http.routers.dashboard-https.tls.certresolver=staging
+
+      # Service port
       - traefik.http.services.traefik-http.loadbalancer.server.port=8080
-      - traefik.http.routers.traefik-http.rule=Host(`traefik.cv01.davidessien.com`) || Host(`www.traefik.cv01.davidessien.com`)
-      - traefik.http.routers.traefik-https.middlewares=redirect-to-non-www
-      - traefik.http.routers.traefik-https.rule=Host(`traefik.cv01.davidessien.com`) || Host(`www.traefik.cv01.davidessien.com`)
-      - traefik.http.routers.traefik-https.entrypoints=websecure
-      - traefik.http.routers.traefik-https.service=api@internal
-      - traefik.http.routers.traefik-https.tls.certresolver=staging
     volumes:
       - ./reverse-proxy/traefik.yaml:/etc/traefik/traefik.yml:ro # Traefik's main configuration file
       - /var/run/docker.sock:/var/run/docker.sock:ro # Access Docker socket

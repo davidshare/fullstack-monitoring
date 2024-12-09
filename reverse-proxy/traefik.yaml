@@ -17,13 +17,27 @@ entryPoints:
     http:
       tls:
         certResolver: staging
+  metrics:
+    address: ":8082"
 
-middlewares:
-  redirect-to-non-www:
-    redirectRegex:
-      regex: "^https?://www\\.(.+)"
-      replacement: "https://$1"
-      permanent: true
+http:
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    dashboard-auth:
+      basicAuth:
+        users:
+          - "admin:$apr1$l2EyNTmm$6mrVp.8A3i8wv.9.2qidU1"
+  routers:
+    api:
+      rule: "Host(`traefik.cv01.davidessien.com`)"
+      service: "api@internal"
+      entryPoints:
+        - websecure
+      middlewares:
+        - "dashboard-auth"
 
 providers:
   docker:
@@ -33,14 +47,14 @@ certificatesResolvers:
   staging:
     acme:
       email: davidessienshare@gmail.com
-      storage: /letsencrypt/acme.json
+      storage: /letsencrypt/acme-staging.json
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
   production:
     acme:
       email: davidessienshare@gmail.com
-      storage: /letsencrypt/acme.json
+      storage: /letsencrypt/acme-production.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
@@ -54,7 +68,7 @@ accessLog: # Enables access logging
 
 metrics:
   prometheus:
-    entryPoint: websecure # Expose Prometheus metrics on the websecure endpoint
+    entryPoint: metrics
     addEntryPointsLabels: true
     addServicesLabels: true
     buckets:

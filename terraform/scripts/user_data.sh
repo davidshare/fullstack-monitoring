@@ -43,8 +43,10 @@ else
 fi
 
 mkdir -p "{$CLONE_DIR}/letsencrypt"
-touch "{$CLONE_DIR}/letsencrypt/acme.json"
-chmod 600 "{$CLONE_DIR}/letsencrypt/acme.json"  # Set proper permissions
+touch "{$CLONE_DIR}/letsencrypt/acme-staging.json"
+touch "{$CLONE_DIR}/letsencrypt/acme-production.json"
+chmod 600 "{$CLONE_DIR}/letsencrypt/acme-staging.json"  # Set proper permissions
+chmod 600 "{$CLONE_DIR}/letsencrypt/acme-production.json"  # Set proper permissions
 
 # Verify installations
 echo "Verifying installations..."
