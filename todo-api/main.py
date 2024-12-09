@@ -38,6 +38,15 @@ def read_root():
     return {"message": "Welcome to the FastAPI application!"}
 
 
+@app.get("/api")
+def api():
+    return {
+        "status": "ok",
+        "timestamp": datetime.utcnow().isoformat(),
+        "message": "welcome to todos api"
+    }
+
+
 @app.get("/health")
 def health():
     return {
