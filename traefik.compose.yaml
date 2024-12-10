@@ -17,7 +17,7 @@ services:
       - traefik.http.routers.dashboard-https.rule=Host(`traefik.cv01.davidessien.com`)
       - traefik.http.routers.dashboard-https.entrypoints=websecure
       - traefik.http.routers.dashboard-https.service=api@internal
-      - traefik.http.routers.dashboard-https.tls.certresolver=staging
+      - traefik.http.routers.dashboard-https.tls.certresolver=production
 
       # Service port
       - traefik.http.services.traefik-http.loadbalancer.server.port=8080

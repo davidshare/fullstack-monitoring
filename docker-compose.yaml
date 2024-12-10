@@ -25,7 +25,7 @@ services:
       # HTTPS Router
       - "traefik.http.routers.backend-https.rule=Host(`cv01.davidessien.com`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`))"
       - "traefik.http.routers.backend-https.entrypoints=websecure"
-      - "traefik.http.routers.backend-https.tls.certresolver=staging"
+      - "traefik.http.routers.backend-https.tls.certresolver=production"
 
       # Service
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
@@ -67,7 +67,7 @@ services:
       # HTTPS Router
       - "traefik.http.routers.frontend-https.rule=Host(`cv01.davidessien.com`)"
       - "traefik.http.routers.frontend-https.entrypoints=websecure"
-      - "traefik.http.routers.frontend-https.tls.certresolver=staging"
+      - "traefik.http.routers.frontend-https.tls.certresolver=production"
 
       # Service
       - "traefik.http.services.frontend.loadbalancer.server.port=3000"
