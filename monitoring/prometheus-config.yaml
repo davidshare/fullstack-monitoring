@@ -31,6 +31,7 @@ scrape_configs:
 
   # Monitor todo-frontend for frontend metrics
   - job_name: "todo-frontend"
+    metrics_path: "/api/metrics"
     static_configs:
       - targets: ["todo-frontend:3000"]
 
