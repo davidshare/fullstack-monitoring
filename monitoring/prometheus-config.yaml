@@ -1,24 +1,50 @@
 global:
-  scrape_interval: 15s # Scrape metrics every 15 seconds
-  scrape_timeout: 10s # Timeout for scraping metrics
+  scrape_interval: 15s
+  scrape_timeout: 10s
 
 scrape_configs:
-  # Scrape Prometheus server itself for monitoring its own health and performance
+  # Monitor Prometheus itself
   - job_name: "prometheus"
-    scrape_interval: 1m # Scrape Prometheus every minute (to avoid overloading it)
+    scrape_interval: 1m
     static_configs:
-      - targets: ["prometheus:9090"] # Scrape Prometheus server itself (if monitoring Prometheus)
+      - targets: ["prometheus:9090"]
 
-  # Scrape Node Exporter for system-level metrics (CPU, memory, disk, etc.)
-  - job_name: "node"
-    static_configs:
-      - targets: ["node-exporter:9100"] # Scrape node-exporter for host-level metrics
-
-  # Scrape cAdvisor for Docker container metrics (CPU, memory, network, etc.)
+  # Monitor cAdvisor for container metrics
   - job_name: "cadvisor"
     static_configs:
-      - targets: ["cadvisor:8080"] # Scrape cAdvisor for container metrics
+      - targets: ["cadvisor:8080"]
 
+  # Monitor Node Exporter (if deployed)
+  - job_name: "node"
+    static_configs:
+      - targets: ["node-exporter:9100"]
+
+  # Monitor Traefik for router/service metrics
   - job_name: "traefik"
     static_configs:
       - targets: ["traefik:8082"]
+
+  # Monitor todo-api for application metrics
+  - job_name: "todo-api"
+    static_configs:
+      - targets: ["todo-api:8000"]
+
+  # Monitor todo-frontend for frontend metrics
+  - job_name: "todo-frontend"
+    static_configs:
+      - targets: ["todo-frontend:3000"]
+
+  # Monitor Adminer (basic monitoring)
+  - job_name: "adminer"
+    static_configs:
+      - targets: ["adminer:8080"]
+
+  # Monitor Grafana for metrics
+  - job_name: "grafana"
+    static_configs:
+      - targets: ["grafana:3000"]
+
+  # Monitor Loki
+  - job_name: "loki"
+    static_configs:
+      - targets: ["loki:3100"]

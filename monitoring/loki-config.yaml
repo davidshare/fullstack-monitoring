@@ -1,40 +1,40 @@
-auth_enabled: false # Disable authentication (adjust if needed for security)
+auth_enabled: false
 
 server:
-  http_listen_port: 3100 # Loki's API port for receiving logs
+  http_listen_port: 3100
 
 distributor:
   ring:
     kvstore:
-      store: inmemory # Using in-memory key-value store (no high availability needed)
+      store: inmemory
     consistent_hash_ring:
-      num_tokens: 256 # Number of tokens for better distribution (can be adjusted)
+      num_tokens: 256
 
 ingester:
-  chunk_target_size: 1048576 # 1MB per chunk (can be adjusted based on log size)
-  max_chunk_age: 1h # Max age of log chunks (logs older than this will be compacted)
+  chunk_target_size: 1048576
+  max_chunk_age: 1h
   lifecycler:
     ring:
       kvstore:
-        store: inmemory # Keeping the ring in memory
-      replication_factor: 1 # No replication, since this is a single-node setup
+        store: inmemory
+      replication_factor: 1
 
 querier:
-  query_timeout: 1m # Timeout for queries (adjust based on your query volume)
-  max_concurrent: 50 # Limit number of concurrent queries (can be adjusted based on traffic)
+  query_timeout: 30s
+  max_concurrent: 50
 
 frontend:
-  log_queries_fully_completed: true # Enable logging for query completion
+  log_queries_fully_completed: true
 
 storage_config:
   boltdb_shipper:
-    active_index_directory: /data/loki/index # Location for index data
-    cache_location: /data/loki/cache # Location for cache data
-    storage_type: filesystem # Store logs on the local filesystem
-    directory: /data/loki/chunks # Location for log chunks on the disk
+    active_index_directory: /data/loki/index
+    cache_location: /data/loki/cache
+    storage_type: filesystem
+    directory: /data/loki/chunks
 
 limits_config:
-  max_entries_limit: 500000 # Maximum number of entries per query
-  max_chunk_size: 1048576 # Max size for a log chunk (1MB)
+  max_entries_limit: 500000
+  max_chunk_size: 1048576
 
-chunk_target_size: 1048576 # Max size of each log chunk
+chunk_target_size: 1048576
