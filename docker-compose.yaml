@@ -34,10 +34,16 @@ services:
       - ./todo-api/.env
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "curl", "-f", "http://0.0.0.0:8000/health"]
-      interval: 60s
-      timeout: 20s
-      retries: 5
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import requests; requests.get('http://localhost:8000/health')",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
     depends_on:
       - db
