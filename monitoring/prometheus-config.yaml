@@ -26,8 +26,15 @@ scrape_configs:
 
   # Monitor todo-api for application metrics
   - job_name: "todo-api"
+    metrics_path: "/api/v1"
     static_configs:
       - targets: ["todo-api:8000"]
+
+  # Monitor todo-frontend for frontend metrics
+  - job_name: "todo-frontend"
+    metrics_path: "/"
+    static_configs:
+      - targets: ["todo-frontend:3000"]
 
   # Monitor Adminer (basic monitoring)
   - job_name: "adminer"
