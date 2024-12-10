@@ -46,6 +46,7 @@ services:
 
       # Service Port
       - traefik.http.services.grafana.loadbalancer.server.port=3000
+      - traefik.http.services.grafana.loadbalancer.server.url=https://cv01.davidessien.com/grafana
 
     depends_on:
       - loki
@@ -77,7 +78,8 @@ services:
       - traefik.http.routers.prometheus-https.tls.certresolver=staging
 
       # Server Port
-      - traefik.http.services.prometheus-http.loadbalancer.server.port=9090
+      - traefik.http.services.prometheus.loadbalancer.server.port=9090
+      - traefik.http.services.prometheus.loadbalancer.server.url=https://cv01.davidessien.com/prometheus
     depends_on:
       - cadvisor
     networks:

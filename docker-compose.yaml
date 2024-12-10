@@ -29,6 +29,7 @@ services:
 
       # Service
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
+      - "traefik.http.services.backend.loadbalancer.server.url=https://cv01.davidessien.com/api"
     env_file:
       - ./todo-api/.env
     restart: unless-stopped
