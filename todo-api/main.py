@@ -2,6 +2,7 @@ from datetime import datetime
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from prometheus_fastapi_instrumentator import Instrumentator
 from app.core.config import settings
 from app.core.database import engine
 from app.core.database import Base
@@ -15,7 +16,6 @@ app = FastAPI(
     description=settings.PROJECT_DESCRIPTION,
     version=settings.PROJECT_VERSION
 )
-print("*************************", settings.FRONTEND_ORIGIN)
 origins = [
     settings.FRONTEND_ORIGIN,  # Allow your frontend's origin
     # Add other origins if needed
@@ -29,6 +29,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Initialize the Prometheus Instrumentator
+instrumentator = Instrumentator()
+instrumentator.instrument(app)
+instrumentator.add(self=app)
 
 Base.metadata.create_all(bind=engine)
 
