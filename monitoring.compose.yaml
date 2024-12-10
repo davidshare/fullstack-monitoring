@@ -68,6 +68,9 @@ services:
     restart: unless-stopped
     ports:
       - "9090:9090"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.external-url=https://cv01.davidessien.com/prometheus
     volumes:
       - ./monitoring/prometheus-config.yaml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
@@ -85,11 +88,6 @@ services:
 
       # Server Port
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
-
-      # middleware
-      - traefik.http.middlewares.prometheus-strip-prefix.stripprefix.prefixes=/prometheus
-      - traefik.http.routers.prometheus-http.middlewares=prometheus-strip-prefix
-      - traefik.http.routers.prometheus-https.middlewares=prometheus-strip-prefix
 
     depends_on:
       - cadvisor
