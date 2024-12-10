@@ -32,6 +32,11 @@ services:
       - grafana_data:/var/lib/grafana
     environment:
       - GF_SERVER_ROOT_URL=https://cv01.davidessien.com/grafana
+      - GF_DATASOURCES_DEFAULT_NAME=Prometheus
+      - GF_DATASOURCES_DEFAULT_TYPE=prometheus
+      - GF_DATASOURCES_DEFAULT_URL=http://prometheus:9090 # Prometheus service in Docker
+      - GF_DATASOURCES_DEFAULT_ACCESS=proxy # Use proxy mode to access Prometheus
+      - GF_DATASOURCES_DEFAULT_IS_DEFAULT=true
     labels:
       - traefik.enable=true
 
