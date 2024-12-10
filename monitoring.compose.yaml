@@ -31,22 +31,28 @@ services:
       - grafana_data:/var/lib/grafana
     environment:
       - GF_SERVER_ROOT_URL=https://cv01.davidessien.com/grafana
-
     labels:
       - traefik.enable=true
 
       # HTTP Rule
       - traefik.http.routers.grafana-http.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/grafana`)
       - traefik.http.routers.grafana-http.entrypoints=web
+      - traefik.http.routers.grafana-http.middlewares=redirect-to-https,grafana-strip-prefix
 
       # HTTPS Rule
       - traefik.http.routers.grafana-https.rule=Host(`cv01.davidessien.com`) && PathPrefix(`/grafana`)
       - traefik.http.routers.grafana-https.entrypoints=websecure
       - traefik.http.routers.grafana-https.tls.certresolver=staging
+      - traefik.http.routers.grafana-https.middlewares=grafana-strip-prefix
 
-      # Service Port
+      # Strip Prefix Middleware
+      - traefik.http.middlewares.grafana-strip-prefix.stripprefix.prefixes=/grafana
+
+      # Redirect Middleware
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+
+      # Server Port
       - traefik.http.services.grafana.loadbalancer.server.port=3000
-      - traefik.http.services.grafana.loadbalancer.server.url=https://cv01.davidessien.com/grafana
 
     depends_on:
       - loki
@@ -79,7 +85,12 @@ services:
 
       # Server Port
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
-      - traefik.http.services.prometheus.loadbalancer.server.url=https://cv01.davidessien.com/prometheus
+
+      # middleware
+      - traefik.http.middlewares.prometheus-strip-prefix.stripprefix.prefixes=/prometheus
+      - traefik.http.routers.prometheus-http.middlewares=prometheus-strip-prefix
+      - traefik.http.routers.prometheus-https.middlewares=prometheus-strip-prefix
+
     depends_on:
       - cadvisor
     networks:
