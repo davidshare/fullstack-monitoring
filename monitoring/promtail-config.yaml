@@ -9,38 +9,35 @@ clients:
   - url: "http://loki:3100/loki/api/v1/push"
 
 scrape_configs:
-  # System logs job
+  # System logs
   - job_name: "system_logs"
     static_configs:
       - targets:
           - "localhost"
         labels:
           job: "system_logs"
-          __path__: /var/log/*log
+          __path__: /var/log/*.log
 
-  - job_name: docker-logs
-    static_configs:
-      - targets:
-          - localhost
-        labels:
-          job: docker-logs
-          __path__: /var/lib/docker/containers/*/*.log
-
+  # Docker Service Discovery
+  - job_name: "docker_logs"
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
     relabel_configs:
-      # Extract container ID and container name
+      # Extract container ID from the discovered targets
       - source_labels: [__meta_docker_container_id]
         target_label: container_id
 
+      # Extract container name and use it as a label
       - source_labels: [__meta_docker_container_name]
         regex: "/(.+)"
         target_label: container_name
 
-      # Assign the correct path to container logs
+      # Assign path to container logs
       - source_labels: [__meta_docker_container_id]
         target_label: __path__
         replacement: "/var/lib/docker/containers/$1/$1-json.log"
 
-      # Optional: Filter out containers if needed (e.g., exclude Promtail itself)
+      # Optional: Drop logs from specific containers
       - source_labels: [__meta_docker_container_name]
         regex: "promtail"
         action: drop
