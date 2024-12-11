@@ -19,28 +19,28 @@ scrape_configs:
           __path__: /var/log/*.log
 
   # Docker logs job
-  # - job_name: docker
-  #   static_configs:
-  #     - targets:
-  #         - localhost
-  #       labels:
-  #         job: docker
-  #         __path__: /var/lib/docker/containers/*/*.log
-  #   pipeline_stages:
-  #     - docker: {}
-
   - job_name: docker
-    docker_sd_configs:
-      - host: unix:///var/run/docker.sock
-        refresh_interval: 5s
-        filters:
-          - name: label
-            values: ["logging=promtail"]
-    relabel_configs:
-      - source_labels: ["__meta_docker_container_name"]
-        regex: "/(.*)"
-        target_label: "container"
-      - source_labels: ["__meta_docker_container_log_stream"]
-        target_label: "logstream"
-      - source_labels: ["__meta_docker_container_label_logging_jobname"]
-        target_label: "job"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: docker
+          __path__: /var/lib/docker/containers/*/*.log
+    pipeline_stages:
+      - docker: {}
+
+  # - job_name: docker
+  #   docker_sd_configs:
+  #     - host: unix:///var/run/docker.sock
+  #       refresh_interval: 5s
+  #       filters:
+  #         - name: label
+  #           values: ["logging=promtail"]
+  #   relabel_configs:
+  #     - source_labels: ["__meta_docker_container_name"]
+  #       regex: "/(.*)"
+  #       target_label: "container"
+  #     - source_labels: ["__meta_docker_container_log_stream"]
+  #       target_label: "logstream"
+  #     - source_labels: ["__meta_docker_container_label_logging_jobname"]
+  #       target_label: "job"
