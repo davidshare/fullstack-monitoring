@@ -18,10 +18,11 @@ services:
       - todo-frontend
       - todo-backend
     volumes:
-      - ./monitoring/promtail-config.yaml:/etc/promtail/promtail-config.yaml
+      - ./monitoring/promtail-config.yaml:/etc/promtail/config.yaml
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/log:/var/log
+    command: "-config.file=/etc/promtail/config.yaml"
     depends_on:
       - loki
 
