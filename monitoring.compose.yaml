@@ -17,7 +17,6 @@ services:
       - monitoring
     volumes:
       - ./monitoring/promtail-config.yaml:/etc/promtail/promtail-config.yaml
-      - ./monitoring/promtail-positions.yaml:/tmp/positions.yaml
       - /var/log:/var/log
     depends_on:
       - loki
