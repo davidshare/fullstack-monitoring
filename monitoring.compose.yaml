@@ -131,6 +131,20 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     networks:
       - monitoring
+    labels:
+      - traefik.enable=true
+
+      # HTTP Rule
+      - "traefik.http.routers.cadvisor-http.rule=Host(`cadvisor.cv01.davidessien.com`)"
+      - "traefik.http.routers.cadvisor-http.entrypoints=web"
+
+      # HTTPS Rule
+      - "traefik.http.routers.cadvisor-https.rule=Host(`cadvisor.cv01.davidessien.com`)"
+      - "traefik.http.routers.cadvisor-https.entrypoints=websecure"
+      - "traefik.http.routers.cadvisor-https.tls.certresolver=production"
+
+      # Service Port
+      - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
 
 volumes:
   grafana_data:
