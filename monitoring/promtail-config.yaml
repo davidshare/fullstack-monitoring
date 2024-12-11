@@ -2,6 +2,9 @@ server:
   http_listen_port: 9080
   grpc_listen_port: 0
 
+common:
+  instance_addr: 127.0.0.1
+
 positions:
   filename: /tmp/positions.yaml
 
